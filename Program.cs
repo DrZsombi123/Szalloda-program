@@ -58,6 +58,7 @@ public class Program
 
     // ===== SZOBA MENÜ =====
 
+
     private static void SzobaMenu(SzobaKezelo szk)
     {
         bool vissza = false;
@@ -207,6 +208,9 @@ public class Program
     }
 
     // ===== FOGLALÁS MENÜ =====
+
+    // A foglalási menü kezeli az új foglalásokat, módosítást, törlést,
+    // és a mai érkezések listázását.
 
     private static void FoglalasMenu(FoglalasKezelo fk, SzobaKezelo szk)
     {
