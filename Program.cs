@@ -372,6 +372,10 @@ public class Program
 
     // ===== SZABAD SZOBÁK KERESÉSE =====
 
+    // Ez az a funkció, amit demón kiemelünk, mert Excelben ezt
+    // nagyon nehéz lenne megbízhatóan megcsinálni.
+
+
     private static void SzabadSzobakKereses(FoglalasKezelo fk)
     {
         Console.WriteLine();
