@@ -13,5 +13,12 @@ namespace szallodaprogram
 
         public int Ejszakak => (Tavozas - Erkezes).Days;
         public int TeljesAr => Ejszakak * ArPerEjszaka;
+    
+        public string CsvSor()
+        {
+            return $"{Id};{VendegNev};{SzobaSzam};{Erkezes:yyyy-MM-dd};{Tavozas:yyyy-MM-dd};{ArPerEjszaka}";
+        }
+    
     }
+
 }
