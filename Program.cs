@@ -31,7 +31,7 @@ namespace szallodaprogram
 
                 switch (valasztas)
                 {
-                    case 1: Console.WriteLine("[listázás - később]"); break;
+                    case 1: Listazas(); break;
                     case 2: Console.WriteLine("[új foglalás - később]"); break;
                     case 3: Console.WriteLine("[módosítás - később]"); break;
                     case 4: Console.WriteLine("[törlés - később]"); break;
@@ -44,7 +44,22 @@ namespace szallodaprogram
                 }
             }
 
+
+
             Console.WriteLine("Viszontlátásra!");
+        }
+        static void Listazas()
+        {
+            if (foglalasok.Count == 0)
+            {
+                Console.WriteLine("Nincsenek foglalások.");
+                return;
+            }
+
+            foreach (Foglalas f in foglalasok)
+            {
+                Console.WriteLine($"ID: {f.Id}, Vendég: {f.VendegNev}, Szoba: {f.SzobaSzam}, {f.Erkezes:yyyy-MM-dd} - {f.Tavozas:yyyy-MM-dd}, Összesen: {f.TeljesAr} Ft");
+            }
         }
     }
 }
