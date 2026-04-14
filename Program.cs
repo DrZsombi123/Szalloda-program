@@ -32,7 +32,7 @@ namespace szallodaprogram
                 switch (valasztas)
                 {
                     case 1: Listazas(); break;
-                    case 2: Console.WriteLine("[új foglalás - később]"); break;
+                    case 2: UjFoglalas(); break;
                     case 3: Console.WriteLine("[módosítás - később]"); break;
                     case 4: Console.WriteLine("[törlés - később]"); break;
                     case 5: Console.WriteLine("[keresés - később]"); break;
@@ -60,6 +60,41 @@ namespace szallodaprogram
             {
                 Console.WriteLine($"ID: {f.Id}, Vendég: {f.VendegNev}, Szoba: {f.SzobaSzam}, {f.Erkezes:yyyy-MM-dd} - {f.Tavozas:yyyy-MM-dd}, Összesen: {f.TeljesAr} Ft");
             }
+        }
+
+        static void UjFoglalas()
+        {
+            Console.WriteLine("\n--- Új foglalás ---");
+
+            Console.Write("Vendég neve: ");
+            string nev = Console.ReadLine();
+
+            Console.Write("Szobaszám (1-30): ");
+            int szobaSzam = int.Parse(Console.ReadLine());
+
+            Console.Write("Érkezés dátuma (éééé-hh-nn): ");
+            DateTime erkezes = DateTime.Parse(Console.ReadLine());
+
+            Console.Write("Távozás dátuma (éééé-hh-nn): ");
+            DateTime tavozas = DateTime.Parse(Console.ReadLine());
+
+            Console.Write("Ár/éjszaka (Ft): ");
+            int ar = int.Parse(Console.ReadLine());
+
+            int kovetkezoId = foglalasok.Count == 0 ? 1 : foglalasok.Max(f => f.Id) + 1;
+
+            Foglalas uj = new Foglalas
+            {
+                Id = kovetkezoId,
+                VendegNev = nev,
+                SzobaSzam = szobaSzam,
+                Erkezes = erkezes,
+                Tavozas = tavozas,
+                ArPerEjszaka = ar
+            };
+
+            foglalasok.Add(uj);
+            Console.WriteLine($"Foglalás rögzítve! (ID: {uj.Id})");
         }
     }
 }
