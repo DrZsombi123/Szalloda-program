@@ -36,7 +36,7 @@ namespace szallodaprogram
                     case 2: UjFoglalas(); break;
                     case 3: Modositas(); break;
                     case 4: Torles(); break;
-                    case 5: Console.WriteLine("[keresés - később]"); break;
+                    case 5: KeresesNevAlapjan(); break;
                     case 6: Console.WriteLine("[szabad szobák - később]"); break;
                     case 0: fut = false; break;
                     default:
@@ -245,6 +245,32 @@ namespace szallodaprogram
             else
             {
                 Console.WriteLine("Törlés megszakítva.");
+            }
+        }
+        static void KeresesNevAlapjan()
+        {
+            Console.Write("Keresett vendégnév (részlet): ");
+            string kereses = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(kereses))
+            {
+                Console.WriteLine("Üres keresés!");
+                return;
+            }
+
+            List<Foglalas> talalatok = foglalasok
+                .Where(f => f.VendegNev.ToLower().Contains(kereses.ToLower()))
+                .ToList();
+
+            if (talalatok.Count == 0)
+            {
+                Console.WriteLine("Nincs találat.");
+                return;
+            }
+
+            Console.WriteLine($"\n{talalatok.Count} találat:");
+            foreach (Foglalas f in talalatok)
+            {
+                Console.WriteLine($"ID: {f.Id}, {f.VendegNev}, Szoba: {f.SzobaSzam}, {f.Erkezes:yyyy-MM-dd} - {f.Tavozas:yyyy-MM-dd}, {f.TeljesAr} Ft");
             }
         }
         static bool VanUtkozes(Foglalas uj, int kihagyId)
