@@ -35,7 +35,7 @@ namespace szallodaprogram
                     case 1: Listazas(); break;
                     case 2: UjFoglalas(); break;
                     case 3: Modositas(); break;
-                    case 4: Console.WriteLine("[törlés - később]"); break;
+                    case 4: Torles(); break;
                     case 5: Console.WriteLine("[keresés - később]"); break;
                     case 6: Console.WriteLine("[szabad szobák - később]"); break;
                     case 0: fut = false; break;
@@ -201,6 +201,42 @@ namespace szallodaprogram
             catch (Exception ex)
             {
                 Console.WriteLine($"Hiba a fájl betöltésekor: {ex.Message}");
+            }
+        }
+        static void Torles()
+        {
+            if (foglalasok.Count == 0)
+            {
+                Console.WriteLine("Nincsenek foglalások.");
+                return;
+            }
+
+            Listazas();
+            Console.Write("\nTörlendő foglalás ID-ja: ");
+            if (!int.TryParse(Console.ReadLine(), out int id))
+            {
+                Console.WriteLine("Érvénytelen ID!");
+                return;
+            }
+
+            Foglalas f = foglalasok.FirstOrDefault(x => x.Id == id);
+            if (f == null)
+            {
+                Console.WriteLine("Nem található ilyen foglalás!");
+                return;
+            }
+
+            Console.Write($"Biztosan törli a(z) {f.VendegNev} foglalását? (i/n): ");
+            string valasz = Console.ReadLine();
+            if (valasz?.ToLower() == "i")
+            {
+                foglalasok.Remove(f);
+                Mentes();
+                Console.WriteLine("Foglalás törölve!");
+            }
+            else
+            {
+                Console.WriteLine("Törlés megszakítva.");
             }
         }
     }
