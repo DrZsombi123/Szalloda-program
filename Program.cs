@@ -69,18 +69,45 @@ namespace szallodaprogram
 
             Console.Write("Vendég neve: ");
             string nev = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(nev))
+            {
+                Console.WriteLine("A név nem lehet üres!");
+                return;
+            }
 
             Console.Write("Szobaszám (1-30): ");
-            int szobaSzam = int.Parse(Console.ReadLine());
+            if (!int.TryParse(Console.ReadLine(), out int szobaSzam) || szobaSzam < 1 || szobaSzam > 30)
+            {
+                Console.WriteLine("Érvénytelen szobaszám! (1-30 között kell lennie)");
+                return;
+            }
 
             Console.Write("Érkezés dátuma (éééé-hh-nn): ");
-            DateTime erkezes = DateTime.Parse(Console.ReadLine());
+            if (!DateTime.TryParse(Console.ReadLine(), out DateTime erkezes))
+            {
+                Console.WriteLine("Érvénytelen dátum!");
+                return;
+            }
 
             Console.Write("Távozás dátuma (éééé-hh-nn): ");
-            DateTime tavozas = DateTime.Parse(Console.ReadLine());
+            if (!DateTime.TryParse(Console.ReadLine(), out DateTime tavozas))
+            {
+                Console.WriteLine("Érvénytelen dátum!");
+                return;
+            }
+
+            if (tavozas <= erkezes)
+            {
+                Console.WriteLine("A távozás dátumának az érkezés után kell lennie!");
+                return;
+            }
 
             Console.Write("Ár/éjszaka (Ft): ");
-            int ar = int.Parse(Console.ReadLine());
+            if (!int.TryParse(Console.ReadLine(), out int ar) || ar <= 0)
+            {
+                Console.WriteLine("Az árnak pozitív számnak kell lennie!");
+                return;
+            }
 
             int kovetkezoId = foglalasok.Count == 0 ? 1 : foglalasok.Max(f => f.Id) + 1;
 
@@ -95,7 +122,8 @@ namespace szallodaprogram
             };
 
             foglalasok.Add(uj);
-            Console.WriteLine($"Foglalás rögzítve! (ID: {uj.Id})");
+            Mentes();
+            Console.WriteLine($"Foglalás rögzítve! (ID: {uj.Id}, Összesen: {uj.TeljesAr} Ft)");
         }
         static void Betoltes()
         {
