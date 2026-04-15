@@ -120,7 +120,11 @@ namespace szallodaprogram
                 Tavozas = tavozas,
                 ArPerEjszaka = ar
             };
-
+            if (VanUtkozes(uj, -1))
+            {
+                Console.WriteLine("Ez a szoba ebben az időszakban már foglalt!");
+                return;
+            }
             foglalasok.Add(uj);
             Mentes();
             Console.WriteLine($"Foglalás rögzítve! (ID: {uj.Id}, Összesen: {uj.TeljesAr} Ft)");
@@ -177,7 +181,11 @@ namespace szallodaprogram
             string arTxt = Console.ReadLine();
             if (!string.IsNullOrWhiteSpace(arTxt) && int.TryParse(arTxt, out int ar) && ar > 0)
                 f.ArPerEjszaka = ar;
-
+            if (VanUtkozes(f, f.Id))
+            {
+                Console.WriteLine("Ütközés! Ez a szoba ebben az időszakban már foglalt!");
+                return;
+            }
             Mentes();
             Console.WriteLine($"Foglalás módosítva! (Összesen: {f.TeljesAr} Ft)");
         }
@@ -239,5 +247,14 @@ namespace szallodaprogram
                 Console.WriteLine("Törlés megszakítva.");
             }
         }
+        static bool VanUtkozes(Foglalas uj, int kihagyId)
+        {
+            return foglalasok.Any(f =>
+                f.Id != kihagyId &&
+                f.SzobaSzam == uj.SzobaSzam &&
+                f.Erkezes < uj.Tavozas &&
+                uj.Erkezes < f.Tavozas);
+        }
+
     }
 }
