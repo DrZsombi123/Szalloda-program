@@ -34,7 +34,7 @@ namespace szallodaprogram
                 {
                     case 1: Listazas(); break;
                     case 2: UjFoglalas(); break;
-                    case 3: Console.WriteLine("[módosítás - később]"); break;
+                    case 3: Modositas(); break;
                     case 4: Console.WriteLine("[törlés - később]"); break;
                     case 5: Console.WriteLine("[keresés - később]"); break;
                     case 6: Console.WriteLine("[szabad szobák - később]"); break;
@@ -124,6 +124,62 @@ namespace szallodaprogram
             foglalasok.Add(uj);
             Mentes();
             Console.WriteLine($"Foglalás rögzítve! (ID: {uj.Id}, Összesen: {uj.TeljesAr} Ft)");
+        }
+        static void Modositas()
+        {
+            if (foglalasok.Count == 0)
+            {
+                Console.WriteLine("Nincsenek foglalások.");
+                return;
+            }
+
+            Listazas();
+            Console.Write("\nMódosítandó foglalás ID-ja: ");
+            if (!int.TryParse(Console.ReadLine(), out int id))
+            {
+                Console.WriteLine("Érvénytelen ID!");
+                return;
+            }
+
+            Foglalas f = foglalasok.FirstOrDefault(x => x.Id == id);
+            if (f == null)
+            {
+                Console.WriteLine("Nem található ilyen foglalás!");
+                return;
+            }
+
+            Console.WriteLine("(Nyomjon Entert, ha nem akarja módosítani az adott mezőt)");
+
+            Console.Write($"Vendég neve ({f.VendegNev}): ");
+            string nev = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(nev))
+                f.VendegNev = nev;
+
+            Console.Write($"Szobaszám ({f.SzobaSzam}): ");
+            string szobaTxt = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(szobaTxt))
+            {
+                if (int.TryParse(szobaTxt, out int szoba) && szoba >= 1 && szoba <= 30)
+                    f.SzobaSzam = szoba;
+            }
+
+            Console.Write($"Érkezés ({f.Erkezes:yyyy-MM-dd}): ");
+            string erkTxt = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(erkTxt) && DateTime.TryParse(erkTxt, out DateTime erk))
+                f.Erkezes = erk;
+
+            Console.Write($"Távozás ({f.Tavozas:yyyy-MM-dd}): ");
+            string tavTxt = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(tavTxt) && DateTime.TryParse(tavTxt, out DateTime tav))
+                f.Tavozas = tav;
+
+            Console.Write($"Ár/éjszaka ({f.ArPerEjszaka}): ");
+            string arTxt = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(arTxt) && int.TryParse(arTxt, out int ar) && ar > 0)
+                f.ArPerEjszaka = ar;
+
+            Mentes();
+            Console.WriteLine($"Foglalás módosítva! (Összesen: {f.TeljesAr} Ft)");
         }
         static void Betoltes()
         {
