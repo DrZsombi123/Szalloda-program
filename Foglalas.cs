@@ -18,7 +18,18 @@ namespace szallodaprogram
         {
             return $"{Id};{VendegNev};{SzobaSzam};{Erkezes:yyyy-MM-dd};{Tavozas:yyyy-MM-dd};{ArPerEjszaka}";
         }
-    
+        public static Foglalas CsvBol(string sor)
+        {
+            string[] mezok = sor.Split(';');
+            return new Foglalas
+            {
+                Id = int.Parse(mezok[0]),
+                VendegNev = mezok[1],
+                SzobaSzam = int.Parse(mezok[2]),
+                Erkezes = DateTime.Parse(mezok[3]),
+                Tavozas = DateTime.Parse(mezok[4]),
+                ArPerEjszaka = int.Parse(mezok[5])
+            };
+        }
     }
-
 }

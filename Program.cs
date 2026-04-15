@@ -8,9 +8,10 @@ namespace szallodaprogram
     class Program
     {
         static List<Foglalas> foglalasok = new List<Foglalas>();
-
+        
         static void Main(string[] args)
         {
+            Betoltes();
             bool fut = true;
 
             while (fut)
@@ -95,6 +96,28 @@ namespace szallodaprogram
 
             foglalasok.Add(uj);
             Console.WriteLine($"Foglalás rögzítve! (ID: {uj.Id})");
+        }
+        static void Betoltes()
+        {
+            if (!File.Exists(fajlNev))
+                return;
+
+            try
+            {
+                string[] sorok = File.ReadAllLines(fajlNev);
+                foreach (string sor in sorok)
+                {
+                    if (!string.IsNullOrWhiteSpace(sor))
+                    {
+                        foglalasok.Add(Foglalas.CsvBol(sor));
+                    }
+                }
+                Console.WriteLine($"{foglalasok.Count} foglalás betöltve.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Hiba a fájl betöltésekor: {ex.Message}");
+            }
         }
     }
 }
