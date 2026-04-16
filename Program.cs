@@ -37,7 +37,7 @@ namespace szallodaprogram
                     case 3: Modositas(); break;
                     case 4: Torles(); break;
                     case 5: KeresesNevAlapjan(); break;
-                    case 6: Console.WriteLine("[szabad szobák - később]"); break;
+                    case 6: SzabadSzobak(); break;
                     case 0: fut = false; break;
                     default:
                         Console.WriteLine("Érvénytelen menüpont!");
@@ -281,6 +281,54 @@ namespace szallodaprogram
                 f.Erkezes < uj.Tavozas &&
                 uj.Erkezes < f.Tavozas);
         }
+        static void SzabadSzobak()
+        {
+            Console.WriteLine("\n--- Szabad szobák keresése ---");
+
+            Console.Write("Időszak kezdete (éééé-hh-nn): ");
+            if (!DateTime.TryParse(Console.ReadLine(), out DateTime tol))
+            {
+                Console.WriteLine("Érvénytelen dátum formátum!");
+                return;
+            }
+
+            Console.Write("Időszak vége (éééé-hh-nn): ");
+            if (!DateTime.TryParse(Console.ReadLine(), out DateTime ig))
+            {
+                Console.WriteLine("Érvénytelen dátum formátum!");
+                return;
+            }
+
+            if (ig <= tol)
+            {
+                Console.WriteLine("A végdátumnak a kezdődátum után kell lennie!");
+                return;
+            }
+
+            List<int> foglaltSzobak = foglalasok
+                .Where(f => f.Erkezes < ig && tol < f.Tavozas)
+                .Select(f => f.SzobaSzam)
+                .Distinct()
+                .ToList();
+
+            List<int> szabadSzobak = new List<int>();
+            for (int i = 1; i <= 30; i++)
+            {
+                if (!foglaltSzobak.Contains(i))
+                    szabadSzobak.Add(i);
+            }
+
+            if (szabadSzobak.Count == 0)
+            {
+                Console.WriteLine("Ebben az időszakban nincs szabad szoba!");
+            }
+            else
+            {
+                Console.WriteLine($"\nSzabad szobák ({tol:yyyy-MM-dd} - {ig:yyyy-MM-dd}): {string.Join(", ", szabadSzobak)}");
+                Console.WriteLine($"Összesen {szabadSzobak.Count} szabad szoba a 30-ból.");
+            }
+        }
+
 
     }
 }
