@@ -8,6 +8,7 @@ namespace szallodaprogram
     class Program
     {
         static List<Foglalas> foglalasok = new List<Foglalas>();
+        static string fajlNev = "foglalasok.csv";
         
         static void Main(string[] args)
         {
@@ -59,19 +60,6 @@ namespace szallodaprogram
 
 
             Console.WriteLine("Viszontlátásra!");
-        }
-        static void Listazas()
-        {
-            if (foglalasok.Count == 0)
-            {
-                Console.WriteLine("Nincsenek foglalások.");
-                return;
-            }
-
-            foreach (Foglalas f in foglalasok)
-            {
-                Console.WriteLine($"ID: {f.Id}, Vendég: {f.VendegNev}, Szoba: {f.SzobaSzam}, {f.Erkezes:yyyy-MM-dd} - {f.Tavozas:yyyy-MM-dd}, Összesen: {f.TeljesAr} Ft");
-            }
         }
 
         static void UjFoglalas()
@@ -360,6 +348,23 @@ namespace szallodaprogram
         static void FoglalasKiiras(Foglalas f)
         {
             Console.WriteLine($"{f.Id,-5} {f.VendegNev,-20} {f.SzobaSzam,-6} {f.Erkezes:yyyy-MM-dd}  {f.Tavozas:yyyy-MM-dd}  {f.ArPerEjszaka,-8} {f.Ejszakak,-9} {f.TeljesAr} Ft");
+        }
+
+        static void Mentes()
+        {
+            try
+            {
+                List<string> sorok = new List<string>();
+                foreach (Foglalas f in foglalasok)
+                {
+                    sorok.Add(f.CsvSor());
+                }
+                File.WriteAllLines(fajlNev, sorok);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Hiba a mentés során: {ex.Message}");
+            }
         }
     }
 }
