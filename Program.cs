@@ -339,7 +339,27 @@ namespace szallodaprogram
                 Console.WriteLine($"Összesen {szabadSzobak.Count} szabad szoba a 30-ból.");
             }
         }
+        static void Listazas()
+        {
+            if (foglalasok.Count == 0)
+            {
+                Console.WriteLine("Nincsenek foglalások.");
+                return;
+            }
 
+            Console.WriteLine();
+            Console.WriteLine($"{"ID",-5} {"Vendég",-20} {"Szoba",-6} {"Érkezés",-12} {"Távozás",-12} {"Ft/éj",-8} {"Éjszakák",-9} {"Összesen"}");
+            Console.WriteLine(new string('-', 85));
 
+            foreach (Foglalas f in foglalasok)
+            {
+                FoglalasKiiras(f);
+            }
+        }
+
+        static void FoglalasKiiras(Foglalas f)
+        {
+            Console.WriteLine($"{f.Id,-5} {f.VendegNev,-20} {f.SzobaSzam,-6} {f.Erkezes:yyyy-MM-dd}  {f.Tavozas:yyyy-MM-dd}  {f.ArPerEjszaka,-8} {f.Ejszakak,-9} {f.TeljesAr} Ft");
+        }
     }
 }
