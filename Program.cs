@@ -16,32 +16,43 @@ namespace szallodaprogram
 
             while (fut)
             {
-                Console.WriteLine();
-                Console.WriteLine("=== Szálloda Nyilvántartó ===");
-                Console.WriteLine("1. Foglalások listázása");
-                Console.WriteLine("2. Új foglalás felvétele");
-                Console.WriteLine("3. Foglalás módosítása");
-                Console.WriteLine("4. Foglalás törlése");
-                Console.WriteLine("5. Keresés vendégnév alapján");
-                Console.WriteLine("6. Szabad szobák keresése");
-                Console.WriteLine("0. Kilépés");
-                Console.Write("Válasszon: ");
-
-                string input = Console.ReadLine();
-                int.TryParse(input, out int valasztas);
-
-                switch (valasztas)
+                try
                 {
-                    case 1: Listazas(); break;
-                    case 2: UjFoglalas(); break;
-                    case 3: Modositas(); break;
-                    case 4: Torles(); break;
-                    case 5: KeresesNevAlapjan(); break;
-                    case 6: SzabadSzobak(); break;
-                    case 0: fut = false; break;
-                    default:
-                        Console.WriteLine("Érvénytelen menüpont!");
-                        break;
+                    Console.WriteLine();
+                    Console.WriteLine("=== Szálloda Nyilvántartó ===");
+                    Console.WriteLine("1. Foglalások listázása");
+                    Console.WriteLine("2. Új foglalás felvétele");
+                    Console.WriteLine("3. Foglalás módosítása");
+                    Console.WriteLine("4. Foglalás törlése");
+                    Console.WriteLine("5. Keresés vendégnév alapján");
+                    Console.WriteLine("6. Szabad szobák keresése");
+                    Console.WriteLine("0. Kilépés");
+                    Console.Write("Válasszon: ");
+
+                    string input = Console.ReadLine();
+                    if (!int.TryParse(input, out int valasztas))
+                    {
+                        Console.WriteLine("Érvénytelen bemenet! Kérem számot adjon meg.");
+                        continue;
+                    }
+
+                    switch (valasztas)
+                    {
+                        case 1: Listazas(); break;
+                        case 2: UjFoglalas(); break;
+                        case 3: Modositas(); break;
+                        case 4: Torles(); break;
+                        case 5: KeresesNevAlapjan(); break;
+                        case 6: SzabadSzobak(); break;
+                        case 0: fut = false; break;
+                        default:
+                            Console.WriteLine("Érvénytelen menüpont!");
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Hiba történt: {ex.Message}");
                 }
             }
 
